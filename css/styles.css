@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Alpha Design Consultants — Site Stylesheet
+   Alpha Design Consultants, Site Stylesheet
    ========================================================================== */
 
 :root {
@@ -18,10 +18,9 @@
   --bg: #ffffff;
   --bg-soft: #f5f8fa;
 
-  --font-head: "Barlow", "Segoe UI", Arial, sans-serif;
-  --font-body: "Inter", "Segoe UI", Arial, sans-serif;
+  --font: "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
 
-  --radius: 10px;
+  --radius: 6px;
   --shadow-sm: 0 1px 3px rgba(16, 36, 58, 0.08);
   --shadow-md: 0 6px 24px rgba(16, 36, 58, 0.12);
   --container: 1160px;
@@ -37,14 +36,10 @@
   padding: 0;
 }
 
-html {
-  scroll-behavior: smooth;
-}
-
 body {
-  font-family: var(--font-body);
+  font-family: var(--font);
   font-size: 1rem;
-  line-height: 1.65;
+  line-height: 1.6;
   color: var(--ink);
   background: var(--bg);
   -webkit-font-smoothing: antialiased;
@@ -69,9 +64,9 @@ ul {
 }
 
 h1, h2, h3, h4 {
-  font-family: var(--font-head);
-  font-weight: 700;
-  line-height: 1.2;
+  font-family: var(--font);
+  font-weight: 600;
+  line-height: 1.25;
   color: var(--navy-800);
 }
 
@@ -113,18 +108,11 @@ h1, h2, h3, h4 {
 }
 
 .eyebrow {
-  display: inline-block;
-  font-family: var(--font-head);
-  font-size: 0.85rem;
-  font-weight: 600;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--orange-600);
-  margin-bottom: 0.6rem;
+  display: none;
 }
 
 .section--navy .eyebrow {
-  color: var(--orange-500);
+  display: none;
 }
 
 .section-head h2 {
@@ -145,7 +133,7 @@ h1, h2, h3, h4 {
 
 .btn {
   display: inline-block;
-  font-family: var(--font-head);
+  font-family: var(--font);
   font-weight: 600;
   font-size: 1rem;
   letter-spacing: 0.02em;
@@ -248,7 +236,7 @@ h1, h2, h3, h4 {
 }
 
 .brand__text {
-  font-family: var(--font-head);
+  font-family: var(--font);
   line-height: 1.15;
 }
 
@@ -262,11 +250,9 @@ h1, h2, h3, h4 {
 
 .brand__tag {
   display: block;
-  font-size: 0.68rem;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--orange-600);
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: var(--ink-soft);
 }
 
 .nav {
@@ -276,7 +262,7 @@ h1, h2, h3, h4 {
 }
 
 .nav a {
-  font-family: var(--font-head);
+  font-family: var(--font);
   font-weight: 600;
   font-size: 0.98rem;
   color: var(--navy-800);
@@ -296,6 +282,12 @@ h1, h2, h3, h4 {
 .nav .btn {
   padding: 0.55rem 1.2rem;
   font-size: 0.92rem;
+  border-bottom: none;
+}
+
+.nav a.btn--primary:hover {
+  color: #fff;
+  background: var(--orange-600);
 }
 
 .nav-toggle {
@@ -338,7 +330,7 @@ h1, h2, h3, h4 {
   background: rgba(232, 123, 62, 0.16);
   border: 1px solid rgba(232, 123, 62, 0.55);
   color: #f8c9a8;
-  font-family: var(--font-head);
+  font-family: var(--font);
   font-size: 0.82rem;
   font-weight: 600;
   letter-spacing: 0.1em;
@@ -356,7 +348,7 @@ h1, h2, h3, h4 {
 
 .hero h1 em {
   font-style: normal;
-  color: var(--orange-500);
+  color: inherit;
 }
 
 .hero p {
@@ -393,7 +385,7 @@ h1, h2, h3, h4 {
 }
 
 .breadcrumb {
-  font-family: var(--font-head);
+  font-family: var(--font);
   font-size: 0.85rem;
   font-weight: 600;
   letter-spacing: 0.08em;
@@ -426,7 +418,7 @@ h1, h2, h3, h4 {
 }
 
 .stat__value {
-  font-family: var(--font-head);
+  font-family: var(--font);
   font-size: 2.3rem;
   font-weight: 700;
   color: var(--orange-500);
@@ -462,13 +454,6 @@ h1, h2, h3, h4 {
   border: 1px solid var(--line);
   border-radius: var(--radius);
   padding: 1.8rem 1.6rem;
-  box-shadow: var(--shadow-sm);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.card:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-md);
 }
 
 .card__icon {
@@ -500,7 +485,7 @@ h1, h2, h3, h4 {
 .card .card__link {
   display: inline-block;
   margin-top: 0.9rem;
-  font-family: var(--font-head);
+  font-family: var(--font);
   font-weight: 600;
   font-size: 0.92rem;
   color: var(--orange-600);
@@ -515,28 +500,7 @@ h1, h2, h3, h4 {
 }
 
 .feature {
-  display: flex;
-  gap: 0.85rem;
-  align-items: flex-start;
-}
-
-.feature__dot {
-  flex: none;
-  width: 34px;
-  height: 34px;
-  border-radius: 8px;
-  display: grid;
-  place-items: center;
-  background: var(--steel-100);
-  color: var(--steel-600);
-  font-family: var(--font-head);
-  font-weight: 700;
-  font-size: 0.95rem;
-}
-
-.section--navy .feature__dot {
-  background: rgba(255, 255, 255, 0.12);
-  color: var(--orange-500);
+  display: block;
 }
 
 .feature h3 {
@@ -553,6 +517,24 @@ h1, h2, h3, h4 {
   color: #b7c8da;
 }
 
+.strengths-list {
+  list-style: disc;
+  padding-left: 1.25rem;
+  max-width: 720px;
+  display: grid;
+  gap: 0.65rem;
+}
+
+.strengths-list li {
+  color: #b7c8da;
+  font-size: 0.95rem;
+}
+
+.strengths-list strong {
+  color: #fff;
+  font-weight: 600;
+}
+
 /* ---------------------------- Project cards ------------------------------ */
 
 .project-card {
@@ -560,15 +542,8 @@ h1, h2, h3, h4 {
   border: 1px solid var(--line);
   border-radius: var(--radius);
   overflow: hidden;
-  box-shadow: var(--shadow-sm);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
   display: flex;
   flex-direction: column;
-}
-
-.project-card:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-md);
 }
 
 .project-card__media {
@@ -582,11 +557,6 @@ h1, h2, h3, h4 {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.35s ease;
-}
-
-.project-card:hover .project-card__media img {
-  transform: scale(1.05);
 }
 
 .project-card__tag {
@@ -595,13 +565,10 @@ h1, h2, h3, h4 {
   left: 0.8rem;
   background: var(--navy-800);
   color: #fff;
-  font-family: var(--font-head);
-  font-size: 0.72rem;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  padding: 0.28rem 0.7rem;
-  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  padding: 0.25rem 0.6rem;
+  border-radius: 3px;
 }
 
 .project-card__body {
@@ -636,13 +603,11 @@ h1, h2, h3, h4 {
 }
 
 .step__num {
-  font-family: var(--font-head);
-  font-size: 2.4rem;
-  font-weight: 700;
-  color: var(--steel-100);
-  -webkit-text-stroke: 1.5px var(--steel-600);
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--orange-600);
   line-height: 1;
-  margin-bottom: 0.7rem;
+  margin-bottom: 0.5rem;
 }
 
 .step h3 {
@@ -736,7 +701,7 @@ thead {
 }
 
 th {
-  font-family: var(--font-head);
+  font-family: var(--font);
   font-weight: 600;
   letter-spacing: 0.03em;
   text-align: left;
@@ -769,12 +734,9 @@ td:first-child {
 }
 
 .leader-card__role {
-  font-family: var(--font-head);
-  font-size: 0.82rem;
-  font-weight: 600;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--orange-600);
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: var(--ink-soft);
   margin-bottom: 0.35rem;
 }
 
@@ -849,7 +811,7 @@ td:first-child {
   display: inline-block;
   background: var(--steel-100);
   color: var(--navy-800);
-  font-family: var(--font-head);
+  font-family: var(--font);
   font-weight: 600;
   font-size: 0.88rem;
   padding: 0.5rem 1rem;
@@ -861,6 +823,47 @@ td:first-child {
   background: rgba(255, 255, 255, 0.1);
   color: #dce7f1;
   border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* --------------------------- Authorities strip --------------------------- */
+
+.authority-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 2.2rem 3rem;
+}
+
+.authority {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.7rem;
+  width: 158px;
+  text-align: center;
+}
+
+.authority img {
+  height: 74px;
+  width: auto;
+  max-width: 130px;
+  object-fit: contain;
+  filter: grayscale(1);
+  opacity: 0.72;
+  transition: filter 0.3s ease, opacity 0.3s ease, transform 0.3s ease;
+}
+
+.authority:hover img {
+  filter: none;
+  opacity: 1;
+  transform: translateY(-3px);
+}
+
+.authority span {
+  font-size: 0.84rem;
+  color: var(--ink-soft);
+  line-height: 1.35;
 }
 
 /* ----------------------------- Contact page ------------------------------ */
@@ -878,13 +881,14 @@ td:first-child {
 }
 
 .contact-card__role {
-  font-family: var(--font-head);
-  font-size: 0.8rem;
-  font-weight: 600;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--orange-600);
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: var(--ink-soft);
   margin-bottom: 0.3rem;
+}
+
+.contact-card--primary .contact-card__role {
+  color: var(--orange-600);
 }
 
 .contact-card h3 {
@@ -909,7 +913,7 @@ td:first-child {
   display: inline-flex;
   align-items: center;
   gap: 0.45rem;
-  font-family: var(--font-head);
+  font-family: var(--font);
   font-weight: 600;
   font-size: 0.92rem;
   padding: 0.5rem 1rem;
@@ -1060,23 +1064,55 @@ td:first-child {
   flex-wrap: wrap;
 }
 
-/* ---------------------------- Reveal animation --------------------------- */
+/* --------------------------------- Motion -------------------------------- */
 
-.reveal {
+/* Applied only when JS is available (html.js), so content is never hidden. */
+html.js .fade-up {
   opacity: 0;
-  transform: translateY(18px);
-  transition: opacity 0.55s ease, transform 0.55s ease;
+  transform: translateY(14px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
 }
 
-.reveal.is-visible {
+html.js .fade-up.is-visible {
   opacity: 1;
   transform: none;
 }
 
+.card,
+.project-card,
+.contact-card,
+.office-card,
+.leader-card,
+.value-card,
+.step {
+  transition: box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.card:hover,
+.project-card:hover,
+.contact-card:hover,
+.leader-card:hover {
+  box-shadow: var(--shadow-md);
+  border-color: #c9d4dd;
+}
+
+.project-card__media img {
+  transition: transform 0.5s ease;
+}
+
+.project-card:hover .project-card__media img {
+  transform: scale(1.025);
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .reveal {
+  html.js .fade-up {
     opacity: 1;
     transform: none;
+    transition: none;
+  }
+
+  .authority img,
+  .project-card__media img {
     transition: none;
   }
 }
