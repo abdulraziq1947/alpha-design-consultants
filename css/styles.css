@@ -314,7 +314,7 @@ h1, h2, h3, h4 {
   position: relative;
   background:
     linear-gradient(100deg, rgba(13, 30, 48, 0.94) 0%, rgba(22, 50, 78, 0.88) 55%, rgba(22, 50, 78, 0.55) 100%),
-    url("../assets/img/project-florenza-mall.jpg") center 30% / cover no-repeat;
+    url("../assets/img/hero.jpg") center 55% / cover no-repeat;
   color: #fff;
   padding: 6.5rem 0 7rem;
 }
@@ -412,7 +412,7 @@ h1, h2, h3, h4 {
 
 .stats__grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 1.5rem;
   text-align: center;
 }
@@ -1134,7 +1134,7 @@ html.js .fade-up.is-visible {
   }
 
   .stats__grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
   }
 }
 
@@ -1226,7 +1226,7 @@ html.js .fade-up.is-visible {
   }
 
   .stats__grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: 1fr;
     gap: 1.8rem 1rem;
   }
 }
