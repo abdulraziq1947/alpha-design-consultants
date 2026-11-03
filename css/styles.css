@@ -688,6 +688,17 @@ h1, h2, h3, h4 {
   box-shadow: var(--shadow-sm);
 }
 
+.residential-table {
+  max-height: 34rem;
+  overflow-y: auto;
+}
+
+.residential-table thead th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
 table {
   width: 100%;
   border-collapse: collapse;
