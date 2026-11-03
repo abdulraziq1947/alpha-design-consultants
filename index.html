@@ -53,7 +53,6 @@
 
     <section class="hero">
       <div class="hero__grid" aria-hidden="true"></div>
-      <div class="hero__scan" aria-hidden="true"></div>
       <div class="container">
         <div class="hero__layout">
           <div class="hero__inner">
@@ -71,20 +70,47 @@
               <span>Seismic Design</span>
             </div>
           </div>
-          <div class="hero__visual" aria-hidden="true">
-            <div class="hero__hud">
-              <span class="hero__hud-label">Frame study</span>
-              <span class="hero__hud-coord" id="hero-coord">X 12.40 · Y 0.00 · Z 8.10</span>
+          <div class="hero__stage" aria-hidden="true">
+            <div class="hero__stage-orbit">
+              <span>Design</span>
+              <span>Vetting</span>
+              <span>Soil</span>
+              <span>Supervision</span>
             </div>
-            <div class="hero__elevations">
-              <span data-level="4">+13.20</span>
-              <span data-level="3">+9.90</span>
-              <span data-level="2">+6.60</span>
-              <span data-level="1">+3.30</span>
-              <span data-level="0" class="is-active">±0.00</span>
+            <div class="hero__compass">
+              <i></i><i></i><i></i><i></i>
+              <strong>N</strong>
             </div>
-            <canvas id="hero-structure" width="640" height="520"></canvas>
-            <p class="hero__visual-caption">Interactive structural frame · move to explore</p>
+            <div class="hero__massing" id="hero-massing">
+              <svg class="hero__iso" viewBox="0 0 420 360" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <g class="iso-ground">
+                  <path d="M70 250 L210 180 L350 250 L210 320 Z" stroke="rgba(214,226,236,0.28)" stroke-dasharray="5 6" fill="rgba(214,226,236,0.04)"/>
+                  <text x="86" y="262" fill="rgba(201,214,224,0.55)" font-size="11" font-family="Segoe UI, sans-serif">PLOT BOUNDARY</text>
+                </g>
+                <g class="iso-block iso-block--a">
+                  <path d="M120 250 L180 220 L180 120 L120 150 Z" fill="rgba(232,123,62,0.22)" stroke="rgba(232,123,62,0.7)"/>
+                  <path d="M180 220 L240 250 L240 150 L180 120 Z" fill="rgba(232,123,62,0.12)" stroke="rgba(232,123,62,0.55)"/>
+                  <path d="M120 150 L180 120 L240 150 L180 180 Z" fill="rgba(255,210,180,0.28)" stroke="rgba(232,123,62,0.8)"/>
+                </g>
+                <g class="iso-block iso-block--b">
+                  <path d="M210 235 L255 212 L255 70 L210 93 Z" fill="rgba(232,123,62,0.26)" stroke="rgba(232,123,62,0.75)"/>
+                  <path d="M255 212 L300 235 L300 93 L255 70 Z" fill="rgba(232,123,62,0.14)" stroke="rgba(232,123,62,0.55)"/>
+                  <path d="M210 93 L255 70 L300 93 L255 116 Z" fill="rgba(255,210,180,0.3)" stroke="rgba(232,123,62,0.85)"/>
+                </g>
+                <g class="iso-block iso-block--c">
+                  <path d="M150 278 L210 248 L210 190 L150 220 Z" fill="rgba(140,175,205,0.18)" stroke="rgba(180,205,225,0.55)"/>
+                  <path d="M210 248 L270 278 L270 220 L210 190 Z" fill="rgba(140,175,205,0.1)" stroke="rgba(180,205,225,0.4)"/>
+                  <path d="M150 220 L210 190 L270 220 L210 250 Z" fill="rgba(200,220,235,0.22)" stroke="rgba(180,205,225,0.65)"/>
+                </g>
+                <g class="iso-block iso-block--d">
+                  <path d="M95 210 L125 195 L125 130 L95 145 Z" fill="rgba(232,123,62,0.2)" stroke="rgba(232,123,62,0.65)"/>
+                  <path d="M125 195 L155 210 L155 145 L125 130 Z" fill="rgba(232,123,62,0.1)" stroke="rgba(232,123,62,0.5)"/>
+                  <path d="M95 145 L125 130 L155 145 L125 160 Z" fill="rgba(255,210,180,0.24)" stroke="rgba(232,123,62,0.75)"/>
+                </g>
+                <path class="iso-link" d="M180 150 C200 130, 220 120, 255 95" stroke="rgba(214,226,236,0.35)" stroke-dasharray="3 4"/>
+                <path class="iso-link" d="M210 220 C200 235, 190 245, 180 255" stroke="rgba(214,226,236,0.28)" stroke-dasharray="3 4"/>
+              </svg>
+            </div>
           </div>
         </div>
       </div>

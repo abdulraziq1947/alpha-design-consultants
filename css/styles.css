@@ -321,8 +321,10 @@ h1, h2, h3, h4 {
 .hero {
   position: relative;
   --hero-shift: 0px;
-  --mx: 0.5;
-  --my: 0.45;
+  --mx: 0;
+  --my: 0;
+  --tilt-x: 0deg;
+  --tilt-y: 0deg;
   background:
     linear-gradient(105deg, rgba(10, 22, 36, 0.96) 0%, rgba(13, 30, 48, 0.9) 42%, rgba(22, 50, 78, 0.62) 100%),
     url("../assets/img/hero.jpg") center calc(52% + var(--hero-shift)) / cover no-repeat;
@@ -336,29 +338,15 @@ h1, h2, h3, h4 {
   position: absolute;
   inset: 0;
   background-image:
-    linear-gradient(rgba(214, 226, 236, 0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(214, 226, 236, 0.05) 1px, transparent 1px);
+    linear-gradient(rgba(214, 226, 236, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(214, 226, 236, 0.045) 1px, transparent 1px);
   background-size: 56px 56px;
   background-position:
-    calc(var(--mx) * 18px) calc(var(--my) * 14px),
-    calc(var(--mx) * 18px) calc(var(--my) * 14px);
-  mask-image: radial-gradient(ellipse at 70% 45%, #000 20%, transparent 72%);
+    calc(var(--mx) * 12px) calc(var(--my) * 10px),
+    calc(var(--mx) * 12px) calc(var(--my) * 10px);
+  mask-image: radial-gradient(ellipse at 72% 48%, #000 18%, transparent 75%);
   pointer-events: none;
   z-index: 0;
-}
-
-.hero__scan {
-  position: absolute;
-  left: 0;
-  right: 0;
-  height: 1px;
-  top: calc(28% + var(--my) * 44%);
-  background: linear-gradient(90deg, transparent, rgba(232, 123, 62, 0.55), transparent);
-  box-shadow: 0 0 18px rgba(232, 123, 62, 0.35);
-  pointer-events: none;
-  z-index: 1;
-  opacity: 0.7;
-  transition: top 0.15s ease-out;
 }
 
 .hero .container {
@@ -369,7 +357,7 @@ h1, h2, h3, h4 {
 .hero__layout {
   display: grid;
   grid-template-columns: minmax(0, 1.05fr) minmax(280px, 0.95fr);
-  gap: 2rem 2.5rem;
+  gap: 2rem 2.2rem;
   align-items: center;
 }
 
@@ -437,88 +425,135 @@ h1, h2, h3, h4 {
   background: rgba(255, 255, 255, 0.03);
 }
 
-.hero__visual {
+/* Conceptual site massing — not a structural wireframe */
+.hero__stage {
   position: relative;
+  width: 100%;
+  min-width: 280px;
   min-height: 420px;
-  border: 1px solid rgba(214, 226, 236, 0.12);
-  border-radius: 14px;
-  background:
-    radial-gradient(ellipse at 50% 70%, rgba(232, 123, 62, 0.12), transparent 55%),
-    rgba(8, 18, 30, 0.45);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
-  overflow: hidden;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.28);
+  display: grid;
+  place-items: center;
+  perspective: 900px;
 }
 
-.hero__visual canvas {
+.hero__stage-orbit {
+  position: absolute;
+  inset: 8% 6%;
+  border: 1px dashed rgba(214, 226, 236, 0.18);
+  border-radius: 50%;
+  animation: hero-orbit-spin 36s linear infinite;
+  pointer-events: none;
+}
+
+.hero__stage-orbit span {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(201, 214, 224, 0.72);
+  white-space: nowrap;
+}
+
+.hero__stage-orbit span:nth-child(1) { transform: translate(-50%, -50%) rotate(0deg) translateY(-155px) rotate(0deg); }
+.hero__stage-orbit span:nth-child(2) { transform: translate(-50%, -50%) rotate(90deg) translateY(-155px) rotate(-90deg); }
+.hero__stage-orbit span:nth-child(3) { transform: translate(-50%, -50%) rotate(180deg) translateY(-155px) rotate(-180deg); }
+.hero__stage-orbit span:nth-child(4) { transform: translate(-50%, -50%) rotate(270deg) translateY(-155px) rotate(-270deg); }
+
+.hero__compass {
+  position: absolute;
+  top: 1.1rem;
+  right: 1.2rem;
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  border: 1px solid rgba(232, 123, 62, 0.45);
+  background: rgba(8, 18, 30, 0.35);
+  display: grid;
+  place-items: center;
+  z-index: 3;
+}
+
+.hero__compass i {
+  position: absolute;
+  width: 1px;
+  height: 42%;
+  background: rgba(214, 226, 236, 0.35);
+  top: 50%;
+  left: 50%;
+  transform-origin: top center;
+}
+
+.hero__compass i:nth-child(1) { transform: translate(-50%, 0) rotate(0deg); }
+.hero__compass i:nth-child(2) { transform: translate(-50%, 0) rotate(90deg); }
+.hero__compass i:nth-child(3) { transform: translate(-50%, 0) rotate(45deg); opacity: 0.45; }
+.hero__compass i:nth-child(4) { transform: translate(-50%, 0) rotate(135deg); opacity: 0.45; }
+
+.hero__compass strong {
+  position: relative;
+  z-index: 1;
+  color: var(--orange-500);
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.hero__massing {
+  position: relative;
+  z-index: 1;
+  width: min(100%, 420px);
+  transform:
+    translate3d(calc(var(--mx) * 12px), calc(var(--my) * 10px), 0)
+    rotateX(var(--tilt-x))
+    rotateY(var(--tilt-y));
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+  filter: drop-shadow(0 18px 30px rgba(0, 0, 0, 0.35));
+}
+
+.hero__iso {
   display: block;
   width: 100%;
   height: auto;
-  min-height: 420px;
+  overflow: visible;
 }
 
-.hero__hud {
-  position: absolute;
-  top: 0.9rem;
-  left: 0.9rem;
-  right: 0.9rem;
-  display: flex;
-  justify-content: space-between;
-  gap: 0.8rem;
-  z-index: 2;
-  pointer-events: none;
+.iso-block {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: hero-iso-float 5.2s ease-in-out infinite;
 }
 
-.hero__hud-label,
-.hero__hud-coord,
-.hero__visual-caption,
-.hero__elevations span {
-  font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
-  font-size: 0.72rem;
-  letter-spacing: 0.04em;
+.iso-block--a { animation-delay: 0s; }
+.iso-block--b { animation-delay: 0.35s; }
+.iso-block--c { animation-delay: 0.7s; }
+.iso-block--d { animation-delay: 1s; }
+
+.iso-ground {
+  animation: hero-iso-pulse 4.8s ease-in-out infinite;
 }
 
-.hero__hud-label {
-  color: var(--orange-500);
-  text-transform: uppercase;
+.iso-link {
+  stroke-dashoffset: 0;
+  animation: hero-iso-dash 8s linear infinite;
 }
 
-.hero__hud-coord {
-  color: rgba(201, 214, 224, 0.7);
+@keyframes hero-orbit-spin {
+  to { transform: rotate(360deg); }
 }
 
-.hero__elevations {
-  position: absolute;
-  left: 0.85rem;
-  top: 3.2rem;
-  bottom: 2.8rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  z-index: 2;
-  pointer-events: none;
+@keyframes hero-iso-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-7px); }
 }
 
-.hero__elevations span {
-  color: rgba(201, 214, 224, 0.28);
-  transition: color 0.25s ease, transform 0.25s ease;
+@keyframes hero-iso-pulse {
+  0%, 100% { opacity: 0.85; }
+  50% { opacity: 1; }
 }
 
-.hero__elevations span.is-active {
-  color: var(--orange-500);
-  transform: translateX(3px);
-}
-
-.hero__visual-caption {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0.85rem;
-  text-align: center;
-  color: rgba(169, 188, 207, 0.65);
-  z-index: 2;
-  pointer-events: none;
+@keyframes hero-iso-dash {
+  to { stroke-dashoffset: -40; }
 }
 
 @media (max-width: 980px) {
@@ -526,13 +561,10 @@ h1, h2, h3, h4 {
     grid-template-columns: 1fr;
   }
 
-  .hero__visual {
-    min-height: 340px;
-    max-width: 520px;
-  }
-
-  .hero__visual canvas {
-    min-height: 340px;
+  .hero__stage {
+    min-height: 360px;
+    max-width: 480px;
+    margin-inline: auto;
   }
 }
 
@@ -543,6 +575,19 @@ h1, h2, h3, h4 {
 
   .hero__chips {
     display: none;
+  }
+
+  .hero__stage-orbit {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero__stage-orbit,
+  .iso-block,
+  .iso-ground,
+  .iso-link {
+    animation: none;
   }
 }
 
