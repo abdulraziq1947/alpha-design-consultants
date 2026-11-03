@@ -52,14 +52,39 @@
   <main>
 
     <section class="hero">
+      <div class="hero__grid" aria-hidden="true"></div>
+      <div class="hero__scan" aria-hidden="true"></div>
       <div class="container">
-        <div class="hero__inner">
-          <span class="hero__badge">PEC Reg. CONSULT/2371</span>
-          <h1>Structural &amp; Civil Engineering Consultancy</h1>
-          <p>We provide structural design, seismic engineering, soil investigation, design vetting and site supervision for residential, commercial and institutional projects across Pakistan.</p>
-          <div class="hero__actions">
-            <a href="contact.html" class="btn btn--primary">Get in Touch</a>
-            <a href="projects.html" class="btn btn--outline-light">Our Projects</a>
+        <div class="hero__layout">
+          <div class="hero__inner">
+            <span class="hero__badge">PEC Reg. CONSULT/2371</span>
+            <h1>Structural &amp; Civil Engineering Consultancy</h1>
+            <p>We provide structural design, seismic engineering, soil investigation, design vetting and site supervision for residential, commercial and institutional projects across Pakistan.</p>
+            <div class="hero__actions">
+              <a href="contact.html" class="btn btn--primary">Get in Touch</a>
+              <a href="projects.html" class="btn btn--outline-light">Our Projects</a>
+            </div>
+            <div class="hero__chips" aria-hidden="true">
+              <span>ETABS</span>
+              <span>SAFE</span>
+              <span>Revit BIM</span>
+              <span>Seismic Design</span>
+            </div>
+          </div>
+          <div class="hero__visual" aria-hidden="true">
+            <div class="hero__hud">
+              <span class="hero__hud-label">Frame study</span>
+              <span class="hero__hud-coord" id="hero-coord">X 12.40 · Y 0.00 · Z 8.10</span>
+            </div>
+            <div class="hero__elevations">
+              <span data-level="4">+13.20</span>
+              <span data-level="3">+9.90</span>
+              <span data-level="2">+6.60</span>
+              <span data-level="1">+3.30</span>
+              <span data-level="0" class="is-active">±0.00</span>
+            </div>
+            <canvas id="hero-structure" width="640" height="520"></canvas>
+            <p class="hero__visual-caption">Interactive structural frame · move to explore</p>
           </div>
         </div>
       </div>
