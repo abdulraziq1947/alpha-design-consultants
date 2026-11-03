@@ -1146,6 +1146,120 @@ td:first-child {
   flex-wrap: wrap;
 }
 
+/* ------------------------ Structural model stage ------------------------- */
+
+.model-stage {
+  background:
+    radial-gradient(ellipse at 70% 40%, rgba(232, 123, 62, 0.08), transparent 55%),
+    linear-gradient(160deg, #0a1624 0%, #0d1e30 45%, #12263c 100%);
+  color: #d7e2ee;
+  overflow: hidden;
+}
+
+.model-stage__layout {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  gap: 2.5rem 3rem;
+  align-items: center;
+}
+
+.model-stage__eyebrow {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--orange-500);
+  margin-bottom: 0.7rem;
+}
+
+.model-stage h2 {
+  color: #fff;
+  margin-bottom: 0.9rem;
+}
+
+.model-stage__copy > p {
+  color: #a9bccf;
+  max-width: 34rem;
+  margin-bottom: 1.6rem;
+}
+
+.model-stage__meta {
+  display: grid;
+  gap: 0.7rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.model-stage__meta li {
+  font-size: 0.92rem;
+  color: #c5d4e3;
+  padding-bottom: 0.7rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.model-stage__meta span {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #7f95ab;
+  margin-bottom: 0.15rem;
+}
+
+.model-stage__viewport {
+  position: relative;
+  min-height: 420px;
+}
+
+.model-stage__viewport canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 520px;
+}
+
+.model-stage__scale {
+  position: absolute;
+  left: 0;
+  top: 12%;
+  bottom: 22%;
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: space-between;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.model-stage__scale span {
+  font-size: 0.72rem;
+  font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+  color: rgba(201, 214, 224, 0.35);
+  transition: color 0.35s ease, transform 0.35s ease;
+}
+
+.model-stage__scale span.is-active {
+  color: var(--orange-500);
+  transform: translateX(2px);
+}
+
+.model-stage__caption {
+  margin-top: 0.4rem;
+  font-size: 0.78rem;
+  color: rgba(169, 188, 207, 0.7);
+  text-align: center;
+}
+
+@media (max-width: 860px) {
+  .model-stage__layout {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .model-stage__viewport {
+    min-height: 340px;
+  }
+}
+
 /* --------------------------------- Motion -------------------------------- */
 
 html {

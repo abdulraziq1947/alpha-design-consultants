@@ -180,6 +180,248 @@ if (statValues.length && "IntersectionObserver" in window && !reduceMotion) {
   statValues.forEach((el) => statObserver.observe(el));
 }
 
+// Animated structural wireframe (homepage)
+(function initStructureModel() {
+  const canvas = document.getElementById("structure-model");
+  if (!canvas) return;
+
+  const ctx = canvas.getContext("2d");
+  const scaleLabels = document.querySelectorAll(".model-stage__scale span");
+  const floors = 5;
+  const colsX = 4;
+  const colsZ = 3;
+  const floorH = 1.05;
+  const width = 3.4;
+  const depth = 2.5;
+
+  let angle = 0.55;
+  let activeFloor = 0;
+  let build = reduceMotion ? 1 : 0;
+  let running = false;
+  let last = 0;
+  let visible = false;
+
+  function resize() {
+    const ratio = Math.min(window.devicePixelRatio || 1, 2);
+    const rect = canvas.getBoundingClientRect();
+    const w = Math.max(320, rect.width);
+    const h = Math.max(280, w * 0.72);
+    canvas.width = Math.round(w * ratio);
+    canvas.height = Math.round(h * ratio);
+    ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+    canvas.style.height = `${h}px`;
+  }
+
+  function project(x, y, z) {
+    const c = Math.cos(angle);
+    const s = Math.sin(angle);
+    const xr = x * c - z * s;
+    const zr = x * s + z * c;
+    const scale = Math.min(canvas.clientWidth, canvas.clientHeight) * 0.118;
+    const cx = canvas.clientWidth * 0.58;
+    const cy = canvas.clientHeight * 0.72;
+    return {
+      x: cx + (xr - zr) * scale * 0.86,
+      y: cy - y * scale * 1.05 - (xr + zr) * scale * 0.28,
+    };
+  }
+
+  function strokePoly(points, color, width = 1, dash = null) {
+    if (points.length < 2) return;
+    ctx.beginPath();
+    ctx.moveTo(points[0].x, points[0].y);
+    for (let i = 1; i < points.length; i++) ctx.lineTo(points[i].x, points[i].y);
+    ctx.closePath();
+    ctx.strokeStyle = color;
+    ctx.lineWidth = width;
+    ctx.setLineDash(dash || []);
+    ctx.stroke();
+    ctx.setLineDash([]);
+  }
+
+  function fillPoly(points, color) {
+    ctx.beginPath();
+    ctx.moveTo(points[0].x, points[0].y);
+    for (let i = 1; i < points.length; i++) ctx.lineTo(points[i].x, points[i].y);
+    ctx.closePath();
+    ctx.fillStyle = color;
+    ctx.fill();
+  }
+
+  function gridPoint(i, j, level) {
+    const x = -width / 2 + (i / (colsX - 1)) * width;
+    const z = -depth / 2 + (j / (colsZ - 1)) * depth;
+    const y = level * floorH;
+    return project(x, y, z);
+  }
+
+  function drawFloorSlab(level, accent) {
+    const corners = [
+      gridPoint(0, 0, level),
+      gridPoint(colsX - 1, 0, level),
+      gridPoint(colsX - 1, colsZ - 1, level),
+      gridPoint(0, colsZ - 1, level),
+    ];
+    if (accent) {
+      fillPoly(corners, "rgba(232, 123, 62, 0.10)");
+      strokePoly(corners, "rgba(232, 123, 62, 0.95)", 1.8);
+    } else {
+      strokePoly(corners, "rgba(214, 226, 236, 0.28)", 1);
+    }
+
+    for (let i = 1; i < colsX - 1; i++) {
+      strokePoly(
+        [gridPoint(i, 0, level), gridPoint(i, colsZ - 1, level)],
+        accent ? "rgba(232, 123, 62, 0.45)" : "rgba(214, 226, 236, 0.14)",
+        accent ? 1.1 : 0.8
+      );
+    }
+    for (let j = 1; j < colsZ - 1; j++) {
+      strokePoly(
+        [gridPoint(0, j, level), gridPoint(colsX - 1, j, level)],
+        accent ? "rgba(232, 123, 62, 0.45)" : "rgba(214, 226, 236, 0.14)",
+        accent ? 1.1 : 0.8
+      );
+    }
+  }
+
+  function drawFoundation() {
+    const pad = 0.35;
+    const corners = [
+      project(-width / 2 - pad, -0.08, -depth / 2 - pad),
+      project(width / 2 + pad, -0.08, -depth / 2 - pad),
+      project(width / 2 + pad, -0.08, depth / 2 + pad),
+      project(-width / 2 - pad, -0.08, depth / 2 + pad),
+    ];
+    fillPoly(corners, "rgba(232, 123, 62, 0.06)");
+    strokePoly(corners, "rgba(232, 123, 62, 0.85)", 1.6);
+    strokePoly(
+      [
+        project(-width / 2, -0.08, 0),
+        project(width / 2, -0.08, 0),
+      ],
+      "rgba(232, 123, 62, 0.35)",
+      1,
+      [5, 5]
+    );
+    strokePoly(
+      [
+        project(0, -0.08, -depth / 2),
+        project(0, -0.08, depth / 2),
+      ],
+      "rgba(232, 123, 62, 0.35)",
+      1,
+      [5, 5]
+    );
+  }
+
+  function drawFrame(maxLevel) {
+    const top = Math.max(0, Math.min(floors - 1, maxLevel));
+    for (let i = 0; i < colsX; i++) {
+      for (let j = 0; j < colsZ; j++) {
+        const base = gridPoint(i, j, 0);
+        const tip = gridPoint(i, j, top);
+        ctx.beginPath();
+        ctx.moveTo(base.x, base.y);
+        ctx.lineTo(tip.x, tip.y);
+        ctx.strokeStyle = "rgba(226, 235, 244, 0.55)";
+        ctx.lineWidth = 1.15;
+        ctx.stroke();
+      }
+    }
+
+    for (let level = 0; level <= top; level++) {
+      const accent = Math.abs(level - activeFloor) < 0.55;
+      drawFloorSlab(level, accent);
+    }
+  }
+
+  function syncLabels() {
+    scaleLabels.forEach((el) => {
+      const level = Number(el.getAttribute("data-level"));
+      el.classList.toggle("is-active", level === Math.round(activeFloor));
+    });
+  }
+
+  function render(ts) {
+    if (!running) return;
+    const dt = Math.min((ts - last) / 1000, 0.05);
+    last = ts;
+
+    if (!reduceMotion) {
+      angle += dt * 0.18;
+      build = Math.min(1, build + dt * 0.35);
+      activeFloor = (activeFloor + dt * 0.55) % floors;
+    }
+
+    const w = canvas.clientWidth;
+    const h = canvas.clientHeight;
+    ctx.clearRect(0, 0, w, h);
+
+    // soft ground glow
+    const g = ctx.createRadialGradient(w * 0.55, h * 0.78, 10, w * 0.55, h * 0.78, w * 0.35);
+    g.addColorStop(0, "rgba(232, 123, 62, 0.08)");
+    g.addColorStop(1, "rgba(232, 123, 62, 0)");
+    ctx.fillStyle = g;
+    ctx.fillRect(0, 0, w, h);
+
+    drawFoundation();
+    const revealed = Math.max(0, Math.ceil(build * (floors - 1)));
+    drawFrame(revealed);
+    syncLabels();
+
+    if (!reduceMotion) requestAnimationFrame(render);
+    else running = false;
+  }
+
+  function start() {
+    if (running || !visible) return;
+    running = true;
+    last = performance.now();
+    requestAnimationFrame(render);
+  }
+
+  function stop() {
+    running = false;
+  }
+
+  resize();
+  window.addEventListener("resize", () => {
+    resize();
+    if (!running && visible) {
+      // one static redraw when paused
+      const w = canvas.clientWidth;
+      const h = canvas.clientHeight;
+      ctx.clearRect(0, 0, w, h);
+      drawFoundation();
+      drawFrame(floors);
+      syncLabels();
+    }
+  });
+
+  if ("IntersectionObserver" in window) {
+    const obs = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          visible = entry.isIntersecting;
+          if (visible) start();
+          else stop();
+        });
+      },
+      { threshold: 0.25 }
+    );
+    obs.observe(canvas.closest(".model-stage") || canvas);
+  } else {
+    visible = true;
+    start();
+  }
+
+  // initial static frame for reduced motion / before first paint
+  drawFoundation();
+  drawFrame(floors);
+  syncLabels();
+})();
+
 // Footer year
 const yearEl = document.getElementById("year");
 if (yearEl) {
