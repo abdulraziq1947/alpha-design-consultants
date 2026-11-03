@@ -141,7 +141,7 @@ h1, h2, h3, h4 {
   border-radius: 6px;
   border: 2px solid transparent;
   cursor: pointer;
-  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+  transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
 }
 
 .btn--primary {
@@ -211,9 +211,17 @@ h1, h2, h3, h4 {
   position: sticky;
   top: 0;
   z-index: 100;
-  background: #fff;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--line);
-  box-shadow: var(--shadow-sm);
+  box-shadow: none;
+  transition: box-shadow 0.3s ease, background 0.3s ease;
+}
+
+.header.is-scrolled {
+  background: rgba(255, 255, 255, 0.97);
+  box-shadow: 0 8px 24px rgba(13, 30, 48, 0.08);
 }
 
 .header .container {
@@ -312,11 +320,13 @@ h1, h2, h3, h4 {
 
 .hero {
   position: relative;
+  --hero-shift: 0px;
   background:
     linear-gradient(100deg, rgba(13, 30, 48, 0.94) 0%, rgba(22, 50, 78, 0.88) 55%, rgba(22, 50, 78, 0.55) 100%),
-    url("../assets/img/hero.jpg") center 55% / cover no-repeat;
+    url("../assets/img/hero.jpg") center calc(55% + var(--hero-shift)) / cover no-repeat;
   color: #fff;
   padding: 6.5rem 0 7rem;
+  overflow: hidden;
 }
 
 .hero__inner {
@@ -903,11 +913,6 @@ td:first-child {
   height: 100%;
   object-fit: cover;
   display: block;
-  transition: transform 0.35s ease;
-}
-
-.office-gallery__item:hover img {
-  transform: scale(1.03);
 }
 
 .office-photos {
@@ -1143,14 +1148,59 @@ td:first-child {
 
 /* --------------------------------- Motion -------------------------------- */
 
+html {
+  scroll-behavior: smooth;
+}
+
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  z-index: 200;
+  background: var(--orange-500);
+  transform: scaleX(0);
+  transform-origin: left center;
+  pointer-events: none;
+}
+
 /* Applied only when JS is available (html.js), so content is never hidden. */
 html.js .fade-up {
   opacity: 0;
-  transform: translateY(14px);
-  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  transform: translateY(22px);
+  transition: opacity 0.75s cubic-bezier(0.22, 1, 0.36, 1), transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 html.js .fade-up.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+html.js .reveal-item {
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1) var(--stagger, 0ms),
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1) var(--stagger, 0ms),
+    box-shadow 0.25s ease,
+    border-color 0.25s ease;
+}
+
+html.js .reveal-item.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+html.js .enter {
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1) var(--enter-delay, 0ms),
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1) var(--enter-delay, 0ms);
+}
+
+html.js .enter.is-in {
   opacity: 1;
   transform: none;
 }
@@ -1162,36 +1212,87 @@ html.js .fade-up.is-visible {
 .leader-card,
 .value-card,
 .step {
-  transition: box-shadow 0.25s ease, border-color 0.25s ease;
+  transition: box-shadow 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
 }
 
 .card:hover,
 .project-card:hover,
 .contact-card:hover,
-.leader-card:hover {
+.leader-card:hover,
+.value-card:hover {
   box-shadow: var(--shadow-md);
   border-color: #c9d4dd;
+  transform: translateY(-4px);
 }
 
-.project-card__media img {
-  transition: transform 0.5s ease;
+.btn:hover {
+  transform: translateY(-1px);
 }
 
-.project-card:hover .project-card__media img {
-  transform: scale(1.025);
+.btn:active {
+  transform: translateY(0);
+}
+
+.project-card__media img,
+.office-gallery__item img {
+  transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.project-card:hover .project-card__media img,
+.office-gallery__item:hover img {
+  transform: scale(1.04);
+}
+
+html.js .project-card__media img,
+html.js .office-gallery__item img {
+  transform: scale(1.06);
+}
+
+html.js .reveal-item.is-visible .project-card__media img,
+html.js .reveal-item.is-visible.office-gallery__item img {
+  transform: scale(1);
+}
+
+html.js .reveal-item.is-visible:hover .project-card__media img,
+html.js .reveal-item.is-visible.office-gallery__item:hover img {
+  transform: scale(1.04);
 }
 
 @media (prefers-reduced-motion: reduce) {
-  html.js .fade-up {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .scroll-progress {
+    display: none;
+  }
+
+  .hero {
+    --hero-shift: 0px !important;
+  }
+
+  html.js .fade-up,
+  html.js .reveal-item,
+  html.js .enter {
     opacity: 1;
     transform: none;
     transition: none;
+  }
+
+  .card:hover,
+  .project-card:hover,
+  .contact-card:hover,
+  .leader-card:hover,
+  .value-card:hover,
+  .btn:hover {
+    transform: none;
   }
 
   .authority img,
   .project-card__media img,
   .office-gallery__item img {
     transition: none;
+    transform: none !important;
   }
 }
 
